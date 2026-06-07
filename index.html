@@ -1,70 +1,276 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kasegidoki-tracker // SYSTEM PORTAL</title>
+    <title>eigaore | Smart Finance Tracker</title>
     <style>
-        body { background-color: #0B111E; color: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 60px 16px; line-height: 1.8; letter-spacing: 0.05em; }
-        .hub-container { max-width: 800px; margin: 0 auto; background: #141D2F; padding: 45px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3); }
-        .status-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.1); color: #10B981; padding: 6px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 25px; }
-        .status-dot { width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; }
-        h1 { font-size: 28px; color: #FFFFFF; font-weight: 700; margin: 0 0 10px 0; }
-        .subtitle { size: 14px; color: #64748B; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; }
-        .article-card { background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.02); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: border 0.2s; }
-        .article-card:hover { border: 1px solid #10B981; }
-        .article-info h3 { margin: 0 0 5px 0; font-size: 16px; }
-        .article-info h3 a { color: #FFFFFF; text-decoration: none; }
-        .article-info h3 a:hover { color: #10B981; }
-        .kw-badge { inline-block; background: rgba(255,255,255,0.05); color: #94A3B8; padding: 3px 8px; border-radius: 4px; font-size: 11px; }
-        .launch-btn { padding: 8px 16px; background: #10B981; color: #FFF; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: bold; }
-        .launch-btn:hover { background: #059669; }
+        /* 洗練されたミニマル・ダークモダン */
+        body {
+            background-color: #0B111E; /* 深みのあるノーブルなネイビーブラック */
+            color: #E2E8F0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+            margin: 0;
+            padding: 60px 20px;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* 知的なミニマルカード */
+        .smart-card {
+            background: #141D2F;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ヘッダーデザイン */
+        .header-zone {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94A3B8;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #10B981; /* 上品なエメラルドグリーン */
+            border-radius: 50%;
+        }
+        .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin: 0 0 20px 0;
+            line-height: 1.4;
+        }
+        .sub-text {
+            font-size: 14px;
+            color: #94A3B8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* 統計グリッド */
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .stat-box {
+            background: #141D2F;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #64748B;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .note-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            background: transparent;
+            color: #94A3B8;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+        }
+        .note-link:hover {
+            color: #FFF;
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .banner-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .banner-display img {
+            border-radius: 8px;
+            transition: opacity 0.2s ease;
+        }
+        .banner-display a:hover img {
+            opacity: 0.9;
+        }
+
+        .log-title {
+            font-size: 16px;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        .item-log {
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 20px;
+            margin-left: 5px;
+            font-size: 13px;
+        }
+        .log-node {
+            margin-bottom: 20px;
+        }
+        .log-date {
+            color: #64748B;
+            font-size: 11px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .log-text {
+            color: #94A3B8;
+            margin: 0;
+        }
+        .log-text a {
+            transition: color 0.2s;
+        }
+        .log-text a:hover {
+            color: #10B981 !important;
+            text-decoration: underline;
+        }
+
+        details {
+            margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+            text-align: center;
+        }
+        summary {
+            font-size: 12px;
+            color: #475569;
+            cursor: pointer;
+            list-style: none;
+        }
+        summary:hover { color: #94A3B8; }
+        .policy-box {
+            text-align: left;
+            padding: 25px;
+            font-size: 12px;
+            color: #94A3B8;
+            background: #0F1624;
+            border-radius: 8px;
+            margin-top: 15px;
+            line-height: 1.7;
+        }
     </style>
 </head>
 <body>
-    <div class="hub-container">
-        <div class="status-badge"><div class="status-dot"></div>CORE ARCHIVE ONLINE</div>
-        <h1>kasegidoki-tracker</h1>
-        <div class="subtitle">AIジャービスがハントした最新トレンド・自動生成特化ノード一覧</div>
-        
-        <div class="articles-list">
+
+    <div class="container">
+
+        <div class="header-zone">
+            <div class="status-badge"><span class="status-dot"></span> AUTOMATION LOG</div>
+            <h1 class="main-title">AIと会計自動化による<br>リアルタイム財務分析ログ</h1>
+            <p class="sub-text">
+                独自開発の自動化システムを実証運用し、マネーフォワードのデータ連携技術を基盤とした効率的な資産形成プロセスを記録する専門ダッシュボード。
+            </p>
+            <a href="https://note.com/lively_yeti9225" target="_blank" class="note-link">
+                Notebook : lively_yeti9225 ↗
+            </a>
+        </div>
+
+        <div class="grid-stats">
+            <div class="stat-box"><span class="stat-label">STATUS</span><div class="stat-value" style="color: #10B981; font-size: 16px;">ONLINE</div></div>
+            <div class="stat-box"><span class="stat-label">MONTHLY</span><div class="stat-value">¥ 0</div></div>
+            <div class="stat-box"><span class="stat-label">TOTAL</span><div class="stat-value">¥ 0</div></div>
+        </div>
+
+        <div class="smart-card">
+            <h2 style="color: #FFFFFF; font-size: 18px; margin: 0 0 12px 0; font-weight: 600;">コア・テクノロジー：マネーフォワード クラウド</h2>
+            <p style="font-size: 13px; color: #94A3B8; margin: 0 0 20px 0;">
+                本検証システムにおいて、手作業を徹底的に排除するためのデータインフラ。銀行、クレジットカード、ビジネスカードの全決済データをシームレスに同期。確定申告やインボイス処理など、バックオフィスの最適化における核心的ツールとして採用しています。
+            </p>
             
-        <div class="article-card">
-            <div class="article-info">
-                <h3><a href="https://kasegidoki-tracker.netlify.app/オンライン英会話_ビジネス_忙しい.html">忙しい人のためのオンライン英会話: ビジネススキル向上の鍵</a></h3>
-                <span class="kw-badge"># オンライン英会話 ビジネス 忙しい</span>
-                <span style="font-size:11px; color:#64748B; margin-left:10px;">本公開（完成）</span>
+            <div class="banner-display">
+                <a href="https://px.a8.net/svt/ejp?a8mat=4B5Q86+AO0MQI+4JGQ+BYDTT" rel="nofollow">
+                <img border="0" width="300" height="250" alt="マネーフォワード クラウド確定申告" src="https://www29.a8.net/svt/bgt?aid=260607750645&wid=002&eno=01&mid=s00000021185002008000&mc=1"></a>
+                <img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4B5Q86+AO0MQI+4JGQ+BYDTT" alt="" style="display:none;">
             </div>
-            <a href="https://kasegidoki-tracker.netlify.app/オンライン英会話_ビジネス_忙しい.html" class="launch-btn">アクセス</a>
         </div>
+
+        <div class="smart-card" style="padding: 30px 40px;">
+            <div class="log-title">Activity Log (自動追従ノード一覧)</div>
+            <div class="item-log">
+                
+                <div class="log-node" style="margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 20px;">
+                    <span class="log-date" style="color: #10B981; font-weight: 600;">2026-06-07 20:17:09 [NEW NODE ONLINE]</span>
+                    <p class="log-text" style="margin: 5px 0 0 0;">
+                        <strong><a href="https://kasegidoki-tracker.netlify.app/オンライン英会話_ビジネス_忙しい.html" style="color: #FFFFFF; text-decoration: none; font-size: 15px;" target="_blank">🚀 忙しい人のためのオンライン英会話: ビジネススキル向上の鍵</a></strong><br>
+                        <span style="font-size: 13px; color: #94A3B8; display: block; margin-top: 5px; line-height: 1.6;">トレンドデータの同期検証インサイトログ。</span>
+                        <span style="font-size: 11px; color: #64748B; display: block; margin-top: 5px; font-family: monospace;">URL: https://kasegidoki-tracker.netlify.app/オンライン英会話_ビジネス_忙しい.html</span>
+                    </p>
+                </div>
         
-        <div class="article-card">
-            <div class="article-info">
-                <h3><a href="https://kasegidoki-tracker.netlify.app/オンライン英会話_ビジネス_忙しい.html">忙しい人のためのオンライン英会話: ビジネススキル向上の鍵</a></h3>
-                <span class="kw-badge"># オンライン英会話 ビジネス 忙しい</span>
-                <span style="font-size:11px; color:#64748B; margin-left:10px;">仮公開</span>
+                <div class="log-node" style="margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 20px;">
+                    <span class="log-date" style="color: #10B981; font-weight: 600;">2026-06-07 19:58:11 [NEW NODE ONLINE]</span>
+                    <p class="log-text" style="margin: 5px 0 0 0;">
+                        <strong><a href="https://kasegidoki-tracker.netlify.app/転職_サポート_Uターン.html" style="color: #FFFFFF; text-decoration: none; font-size: 15px;" target="_blank">🚀 スマホ読者向け：Uターン転職でサポートを活用する方法</a></strong><br>
+                        <span style="font-size: 13px; color: #94A3B8; display: block; margin-top: 5px; line-height: 1.6;">トレンドデータの同期検証インサイトログ。</span>
+                        <span style="font-size: 11px; color: #64748B; display: block; margin-top: 5px; font-family: monospace;">URL: https://kasegidoki-tracker.netlify.app/転職_サポート_Uターン.html</span>
+                    </p>
+                </div>
+        
+                
+                <div class="log-node" style="margin-top: 20px; opacity: 0.5;">
+                    <span class="log-date">2026.06.07 [SYSTEM LIVE]</span>
+                    <p class="log-text">システム基盤を独立サーバー（Netlify）へ移行。UIをミニマル・モダンに刷新。マネーフォワードデータインフラへの一元化および法務防衛システムの構築を完了。</p>
+                </div>
+                <div class="log-node" style="margin-bottom: 0; opacity: 0.3;">
+                    <span class="log-date">2026.06.01</span>
+                    <p class="log-text">データ自動化プロトタイプ計画の始動。インボイスおよび確定申告の自動処理フロー検証を開始。</p>
+                </div>
             </div>
-            <a href="https://kasegidoki-tracker.netlify.app/オンライン英会話_ビジネス_忙しい.html" class="launch-btn">アクセス</a>
         </div>
-        
-        <div class="article-card">
-            <div class="article-info">
-                <h3><a href="https://kasegidoki-tracker.netlify.app/転職_サポート_Uターン.html">スマホ読者向け：Uターン転職でサポートを活用する方法</a></h3>
-                <span class="kw-badge"># 転職 サポート Uターン</span>
-                <span style="font-size:11px; color:#64748B; margin-left:10px;">本公開（完成）</span>
-            </div>
-            <a href="https://kasegidoki-tracker.netlify.app/転職_サポート_Uターン.html" class="launch-btn">アクセス</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-info">
-                <h3><a href="https://kasegidoki-tracker.netlify.app/転職_サポート_Uターン.html">スマホ読者向け：Uターン転職でサポートを活用する方法</a></h3>
-                <span class="kw-badge"># 転職 サポート Uターン</span>
-                <span style="font-size:11px; color:#64748B; margin-left:10px;">仮公開</span>
-            </div>
-            <a href="https://kasegidoki-tracker.netlify.app/転職_サポート_Uターン.html" class="launch-btn">アクセス</a>
-        </div>
-        
+
+        <div style="margin-top: 60px; text-align: center; color: #475569; font-size: 11px;">
+            <p style="margin: 0 0 10px 0;">© eigaore Financial Tracker. All Rights Reserved.</p>
+            
+            <details>
+                <summary>Privacy Policy & Disclaimer</summary>
+                <div class="policy-box">
+                    <p><strong>【当サイトの運営者情報】</strong><br>
+                    運営者：eigaore（lively_yeti9225）<br>
+                    連絡先：kasegidokukun@gmail.com</p>
+                    <p><strong>【免責事項】</strong><br>
+                    当サイトは、アフィリエイトプログラムを使って商品・サービスを紹介しています。最終的なサービス利用、お申し込みの判断はご自身の責任にてお願いいたします。</p>
+                </div>
+            </details>
         </div>
     </div>
 </body>
