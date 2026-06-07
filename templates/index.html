@@ -2,98 +2,357 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>JARVIS // CONTROL DASHBOARD</title>
+    <title>S.H.A.R.V.I.S. // INFINITE CORE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background-color: #060B14; color: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 30px; letter-spacing: 0.05em; }
-        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; max-width: 1400px; margin: 0 auto; }
-        .panel { background: #0E1726; border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 16px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-        h1, h2, h3 { color: #FFFFFF; margin-top: 0; font-weight: 700; }
-        h1 { font-size: 24px; border-bottom: 2px solid #10B981; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        .status-dot { width: 10px; height: 10px; background: #10B981; border-radius: 50%; box-shadow: 0 0 12px #10B981; animation: blink 2s infinite; }
+        /* 🌌 ナイトブルーからパープルへ、絶対的なアート空間の定義 */
+        body { 
+            background: linear-gradient(135deg, #03020d 0%, #0a0524 40%, #150630 100%); 
+            color: #a5b4fc; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 40px; 
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+        }
         
-        /* 🎤 超巨大ボイスボタン */
-        .voice-section { text-align: center; padding: 40px 20px; background: rgba(16, 185, 129, 0.03); border-radius: 12px; border: 1px dashed rgba(16, 185, 129, 0.3); margin-bottom: 30px; }
-        .mic-btn { width: 90px; height: 90px; background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 50%; color: white; font-size: 32px; cursor: pointer; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); transition: all 0.3s ease; }
-        .mic-btn:hover { transform: scale(1.05); box-shadow: 0 0 35px rgba(16, 185, 129, 0.6); }
-        .mic-btn.listening { background: linear-gradient(135deg, #EF4444, #DC2626); box-shadow: 0 0 35px rgba(239, 68, 68, 0.8); animation: pulse 1.5s infinite; }
+        body.mode-active {
+            box-shadow: inset 0 0 100px rgba(236, 72, 153, 0.05);
+        }
         
-        /* 📜 リアルタイムログ */
-        .log-box { background: #070C16; border-radius: 8px; padding: 20px; height: 250px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; color: #A7F3D0; border: 1px solid rgba(255,255,255,0.05); }
-        .log-entry { margin-bottom: 8px; line-height: 1.5; }
+        .art-viewport {
+            display: grid;
+            grid-template-columns: 360px 1fr 360px;
+            height: calc(100vh - 80px);
+            max-width: 1750px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
         
-        /* 🎯 後付け広告エリア */
-        .ad-inject-card { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-        select, input, button.action-btn { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #1F2937; color: white; font-size: 14px; margin-top: 10px; box-sizing: border-box; }
-        button.action-btn { background: #0055FF; border: none; font-weight: bold; cursor: pointer; box-shadow: 0 4px 14px rgba(0,85,255,0.3); }
-        button.action-btn:hover { background: #0044CC; }
+        .hud-wing {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
         
-        @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+        .meta-header {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #4338ca;
+            letter-spacing: 0.25em;
+            margin-bottom: 15px;
+        }
+        
+        .editorial-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.4;
+            margin: 0 0 15px 0;
+        }
+        
+        .editorial-desc {
+            color: #6366f1;
+            font-size: 11px;
+            line-height: 1.7;
+            text-align: justify;
+            margin: 0;
+        }
+
+        /* 🧬 【中枢】超高精細パーティクル・ステージ */
+        .stage-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .particle-space {
+            position: absolute;
+            width: 700px; height: 700px;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* 🔳 アウトライン・ステータスボックス */
+        .reframe-box {
+            width: 90px; height: 115px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            z-index: 5;
+            transition: all 0.4s ease;
+        }
+        
+        #phaseSymbol { font-family: 'Times New Roman', Times, serif; font-size: 32px; color: #ff3b30; line-height: 1; text-shadow: 0 0 15px rgba(255,59,48,0.4); }
+        #phaseLabel { font-size: 8px; font-weight: bold; letter-spacing: 0.1em; color: #ff3b30; margin-top: 8px; text-transform: uppercase; }
+        
+        /* 📜 静穏なオーバーレイ・対話バッファ */
+        .overlay-stream {
+            margin-top: 40px;
+            width: 480px;
+            height: 130px;
+            overflow-y: auto;
+            z-index: 5;
+            font-size: 11px;
+            color: #4f46e5;
+            line-height: 1.6;
+        }
+        .stream-node { margin-bottom: 6px; padding-left: 12px; border-left: 1px solid rgba(99, 102, 241, 0.15); }
+        .stream-node.boss-cmd { color: #ffffff; font-weight: 600; border-left-color: #ffffff; }
+
+        /* 📊 右側：極細ラインのリアルタイムスタック */
+        .stat-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); font-size: 11px; }
+        .stat-lbl { color: #4338ca; font-weight: bold; }
+        .stat-val { color: #ffffff; font-family: monospace; }
+
+        /* 🎯 右下：広告インジェクター */
+        .glass-dock { 
+            background: rgba(255, 255, 255, 0.01); 
+            padding: 20px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        select, input, button.launch-trigger { 
+            width: 100%; padding: 11px; border-radius: 4px; 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            background: #09061c; color: #ffffff; font-family: inherit; font-size: 11px; margin-top: 8px; box-sizing: border-box;
+        }
+        select:focus, input:focus { outline: none; border-color: rgba(99, 102, 241, 0.4); }
+        button.launch-trigger { 
+            background: #ffffff; color: #0a0524; font-weight: 700; cursor: pointer; letter-spacing: 0.15em; text-transform: uppercase; border: none; margin-top: 15px;
+        }
+        button.launch-trigger:hover { background: #6366f1; color: #ffffff; box-shadow: 0 0 25px rgba(99, 102, 241, 0.4); }
+        
+        .brand-logo { color: #1e1b4b; font-size: 10px; font-weight: bold; letter-spacing: 0.3em; text-transform: uppercase; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-grid">
-        <div class="panel">
-            <h1><div class="status-dot"></div> JARVIS INTELLIGENT VOICE SYSTEM // MARK 25</h1>
-            
-            <div class="voice-section">
-                <button class="mic-btn" id="micBtn">🎤</button>
-                <h3 style="margin-top: 20px;" id="voiceStatus">ボタンを押して、ジャービスに話しかけてください</h3>
-                <p style="color: #64748B; font-size: 13px;">「最新トレンドのサイトを作って」「ボタンの色をネオンブルーに変えて」「仮公開して」</p>
+    <div class="art-viewport">
+        <div class="hud-wing">
+            <div>
+                <div class="meta-header">S.H.A.R.V.I.S. INFINITE AUDIO ENGINE</div>
+                <h2 class="editorial-title">対話・AI・アート的思考を統合</h2>
+                <p class="editorial-desc">
+                    「起動」の一言すら過去の遺物となりました。ブラウザを展開した瞬間から、シャービスはボスの具体的なコマンドを常に100%ダイレクトにリスニングしています。喋り終わった後も、全自動で即座にコマンド受付状態へ無限ループ復帰する、完全ハンズフリー型アートコックピット。
+                </p>
             </div>
             
-            <h3>🛰️ リアルタイム・システムコンソール</h3>
-            <div class="log-box" id="logBox"></div>
+            <div>
+                <div class="meta-header">Permanent Architecture</div>
+                <p style="color: #4338ca; font-size: 11px; margin: 0; line-height: 1.6;">
+                    大元ホーム画面『Smart Finance Tracker』のデザインを永久ロック。デプロイ時はURLとAI自動生成の紹介文のみをActivity Logへ差分インジェクションする完全分離分離構造。
+                </p>
+            </div>
+        </div>
+
+        <div class="stage-center">
+            <canvas class="particle-space" id="particleCanvas"></canvas>
+            
+            <div class="reframe-box" id="micBtn">
+                <span id="phaseSymbol">3</span>
+                <span id="phaseLabel">LSTN</span>
+            </div>
+            
+            <div style="margin-top: 25px; font-size: 10px; color: #ffffff; letter-spacing: 0.2em; font-weight: bold; z-index: 10;" id="voiceStatus">⚡ INFINITE LISTENING ACTIVE // SPEAK TO S.H.A.R.V.I.S.</div>
+            
+            <div class="overlay-stream" id="logBox"></div>
         </div>
         
-        <div class="panel">
-            <h2>🎯 後付け広告装填ポート</h2>
-            <p style="color: #94A3B8; font-size: 13px; margin-bottom: 25px;">A8.net等の審査が通過した仮公開サイトへ、後から本物広告をハメ込み、ホーム画面に本公開します。</p>
+        <div class="hud-wing">
+            <div>
+                <div class="meta-header">Telemetry Analytics</div>
+                <div style="margin-top: 15px;">
+                    <div class="stat-line"><span class="stat-lbl">IDENTITY TYPE</span><span class="stat-val">S.H.A.R.V.I.S.</span></div>
+                    <div class="stat-line"><span class="stat-lbl">MIC STATUS</span><span class="stat-val" style="color:#ff3b30; font-weight: bold;">INFINITE_ON</span></div>
+                    <div class="stat-line"><span class="stat-lbl">GATE CONTEXT</span><span class="stat-val" style="color:#6366f1;">RE_FRAME_LOCKED</span></div>
+                    <div class="stat-line"><span class="stat-lbl">CORE COMPILER</span><span class="stat-val">FLASK_ANACONDA</span></div>
+                    <div class="stat-line"><span class="stat-lbl">PIPELINE LOG</span><span class="stat-val" style="color:#10b981;">STREAM_LIVE</span></div>
+                </div>
+            </div>
             
-            <div class="ad-inject-card">
-                <label style="font-size: 12px; color: #10B981; font-weight: bold;">1. 対象ファイル選択</label>
+            <div class="glass-dock">
+                <div class="meta-header" style="margin-bottom: 10px;">Packet Injection</div>
+                <p style="color: #4338ca; font-size: 11px; margin: 0 0 10px 0; line-height: 1.5;">仮公開ノードへ本物広告リンクをマージ。ハブのタイムラインへ自動掲載。</p>
+                
                 <select id="targetFile">
                     {% for file in pending_files %}
                         <option value="{{ file }}">{{ file }}</option>
                     {% endfor %}
                 </select>
-                
-                <label style="font-size: 12px; color: #10B981; font-weight: bold; display:block; margin-top:20px;">2. 本物広告URLを入力</label>
-                <input type="text" id="adUrls" placeholder="url, url, url (カンマ区切りで個別装填可能)">
-                
-                <button class="action-btn" id="injectBtn">🚀 広告をフル装填して本公開</button>
+                <input type="text" id="adUrls" placeholder="https://...">
+                <button class="launch-trigger" id="injectBtn">Launch Pipeline</button>
             </div>
+            
+            <div class="brand-logo">S.H.A.R.V.I.S. // MARK 41</div>
         </div>
     </div>
 
     <script>
-        const micBtn = document.getElementById('micBtn');
         const voiceStatus = document.getElementById('voiceStatus');
         const logBox = document.getElementById('logBox');
+        const phaseSymbol = document.getElementById('phaseSymbol');
+        const phaseLabel = document.getElementById('phaseLabel');
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
         
+        let audioCtx, analyser, dataArray, source;
+        
+        // 🔮 【超高精細アートコア】常時リスニング固定型パーティクルフィジクス
+        let particles = [];
+        const numParticles = 520; 
+        let currentMode = 'LISTENING'; // 🔓 最初から常時リスニングモード固定
+        
+        function initParticles() {
+            canvas.width = 700;
+            canvas.height = 700;
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const r = 120 * Math.cbrt(Math.random());
+                const gridX = ((i % 24) - 12) * 16;
+                const gridY = (Math.floor(i / 24) - 12) * 16;
+                
+                particles.push({
+                    baseX: Math.cos(angle) * r,
+                    baseY: Math.sin(angle) * r,
+                    gridX: gridX,
+                    gridY: gridY,
+                    x: canvas.width / 2, 
+                    y: canvas.height / 2,
+                    size: 1.0 + Math.random() * 2.0,
+                    seed: Math.random() * 100,
+                    angleSpeed: 0.02 + Math.random() * 0.04
+                });
+            }
+        }
+        
+        let artTime = 0;
+        function drawSceneMatrix(volume = 0) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
+            
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter'; 
+            
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            
+            artTime += 0.005 + (volume * 0.03);
+            
+            particles.forEach((p, i) => {
+                let targetX = 0;
+                let targetY = 0;
+                let opacity = 0.7;
+                let colorBase = '99, 102, 241'; // デジハリブルー
+                
+                if (currentMode === 'LISTENING') {
+                    // 🔥 【LSTNフェーズ】最初からこの状態！ボスの声のボリュームで大爆発！
+                    const explode = 1.0 + (volume * 5.5); 
+                    targetX = p.baseX * explode;
+                    targetY = p.baseY * explode;
+                    
+                    const dist = Math.hypot(targetX, targetY);
+                    opacity = Math.max(0, 1 - (dist / 340));
+                    colorBase = '236, 72, 153'; // マゼンタピンク
+                    
+                } else if (currentMode === 'THINKING') {
+                    // 🌀 【THNKフェーズ】螺旋収束
+                    const spiralAngle = artTime * 4 + (i * 0.08);
+                    const currentRadius = Math.max(30, 140 * (1 - (artTime % 2) / 2)); 
+                    targetX = Math.cos(spiralAngle) * currentRadius;
+                    targetY = Math.sin(spiralAngle) * currentRadius;
+                    opacity = 0.5 + Math.sin(artTime * 3) * 0.2;
+                    colorBase = '255, 255, 255'; // 純白
+                    
+                } else if (currentMode === 'WRITING') {
+                    // ⚙️ 【CRTNフェーズ】自動執筆デジタル結晶格子
+                    targetX = p.gridX + Math.sin(artTime * 4 + p.seed) * 1.5;
+                    targetY = p.gridY + Math.cos(artTime * 4 + p.seed) * 1.5;
+                    colorBase = '16, 185, 129'; // エメラルド
+                    
+                } else if (currentMode === 'SPEAKING') {
+                    // 🔊 【SPKフェーズ】音声リング
+                    const ringAngle = (i / numParticles) * Math.PI * 2;
+                    const waveRadius = 135 + Math.sin(ringAngle * 5 + artTime * 6) * (15 + volume * 45);
+                    targetX = Math.cos(ringAngle) * waveRadius;
+                    targetY = Math.sin(ringAngle) * waveRadius;
+                    colorBase = '139, 92, 246'; // アメジスト
+                }
+                
+                p.x += (cx + targetX - p.x) * 0.1;
+                p.y += (cy + targetY - p.y) * 0.1;
+                
+                const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * (currentMode === 'LISTENING' ? 2.5 : 2.0));
+                grad.addColorStop(0, `rgba(${colorBase}, ${opacity})`);
+                grad.addColorStop(0.3, `rgba(${colorBase}, ${opacity * 0.5})`);
+                grad.addColorStop(1, 'rgba(0,0,0,0)');
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * (currentMode === 'LISTENING' ? 2.5 : 2.0), 0, Math.PI * 2);
+                ctx.fillStyle = grad;
+                ctx.fill();
+            });
+            
+            ctx.restore();
+            requestAnimationFrame(() => drawSceneMatrix(getAudioVolume()));
+        }
+        
+        function getAudioVolume() {
+            if (!analyser || currentMode !== 'LISTENING') return 0;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0; for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            return sum / dataArray.length / 35;
+        }
+
+        // 🎙️ 完全常時リスニング・バックグラウンド residENT 回路
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+        let isSystemSpeaking = false; // エコーキャンセル
         
         if (recognition) {
             recognition.lang = 'ja-JP';
             recognition.interimResults = false;
             
-            micBtn.addEventListener('click', () => {
-                if (micBtn.classList.contains('listening')) {
-                    recognition.stop();
-                } else {
-                    micBtn.classList.add('listening');
-                    voiceStatus.innerText = "ボスの声を聴いています... お話しください。";
-                    recognition.start();
-                }
-            });
+            function startInfiniteListening() {
+                if (isSystemSpeaking) return; // 自分が喋ってるときは耳を塞ぐ
+                try { recognition.start(); } catch(e) {}
+            }
             
             recognition.onresult = async (event) => {
-                const commandText = event.results[0][0].transcript;
-                micBtn.classList.remove('listening');
-                voiceStatus.innerText = "指示を受理しました。解析中...";
+                const commandText = event.results[0][0].transcript.trim();
+                if(!commandText) return;
+                
+                console.log("Captured Node Command:", commandText);
+                
+                // 🧠 即座に通信・パースフェーズへ突入
+                currentMode = 'THINKING';
+                phaseSymbol.innerText = "8";
+                phaseLabel.innerText = "THNK";
+                phaseLabel.style.color = "#ffffff";
+                voiceStatus.innerText = "PROCESSING COGNITION ROUTE... PLEASE STANDBY";
                 
                 const res = await fetch('/api/command', {
                     method: 'POST',
@@ -102,51 +361,87 @@
                 });
                 const data = await res.json();
                 
-                const uttr = new SpeechSynthesisUtterance(data.reply);
-                uttr.lang = 'ja-JP';
-                uttr.rate = 1.1;
-                window.speechSynthesis.speak(uttr);
+                // 🔊 シャービスが喋る ➔ 【SPEAKINGフェーズ】
+                currentMode = 'SPEAKING';
+                phaseSymbol.innerText = "V";
+                phaseLabel.innerText = "SPK";
+                phaseLabel.style.color = "#8b5cf6";
+                voiceStatus.innerText = "TRANSMITTING RESPONSE INTEL...";
                 
-                voiceStatus.innerText = "待機中... ボタンを押して指示をどうぞ。";
+                // 🛡️ 自分のスピーカーの声を自分で拾わないエコーキャンセル
+                isSystemSpeaking = true;
+                recognition.stop();
+                
+                const uttr = new SpeechSynthesisUtterance(data.reply);
+                uttr.lang = 'ja-JP'; uttr.rate = 1.15;
+                
+                uttr.onend = () => {
+                    isSystemSpeaking = false;
+                    // 喋り終わったら【全自動で即座に常時リスニング（LSTNモード）】へ完全ループ復帰！
+                    resetToInfiniteListening();
+                };
+                window.speechSynthesis.speak(uttr);
                 updateLogs();
             };
             
-            recognition.onerror = () => {
-                micBtn.classList.remove('listening');
-                voiceStatus.innerText = "エラーが発生しました。もう一度ボタンを押してください。";
-            };
+            recognition.onend = () => { startInfiniteListening(); };
+            recognition.onerror = () => { startInfiniteListening(); };
             
-            recognition.onend = () => {
-                micBtn.classList.remove('listening');
-            };
+            // 🚀 開いた瞬間から「3 LSTN」モードで即座に耳を全開にする
+            resetToInfiniteListening();
+            
         } else {
-            voiceStatus.innerText = "お使いのブラウザは音声認識に対応していません。Chromeでお開きください。";
+            voiceStatus.innerText = "⚠️ CRITICAL ERR // SPEECH CAPTURE PROTOCOL OFFLINE";
+        }
+        
+        function resetToInfiniteListening() {
+            document.body.classList.add('mode-active');
+            currentMode = 'LISTENING';
+            phaseSymbol.innerText = "3";
+            phaseLabel.innerText = "LSTN";
+            phaseLabel.style.color = "#ff3b30";
+            voiceStatus.innerText = "⚡ INFINITE LISTENING ACTIVE // SPEAK TO S.H.A.R.V.I.S.";
+            
+            // マイク波形をCanvasへ配線
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                        source = audioCtx.createMediaStreamSource(stream);
+                        analyser = audioCtx.createAnalyser(); analyser.fftSize = 64;
+                        source.connect(analyser);
+                    });
+                }
+            } catch (e) {}
+            
+            startInfiniteListening();
         }
         
         async function updateLogs() {
             const res = await fetch('/api/status');
             const data = await res.json();
-            logBox.innerHTML = data.log_stream.map(log => `<div class="log-entry">${log}</div>`).join('');
+            
+            logBox.innerHTML = data.log_stream.map(log => {
+                const isUser = log.includes('指示');
+                return `<div class="stream-node ${isUser ? 'boss-cmd' : ''}">➔ ${log.replace('ジャービス', 'シャービス')}</div>`;
+            }).join('');
             logBox.scrollTop = logBox.scrollHeight;
+            
+            const latestLog = data.log_stream[data.log_stream.length - 1] || "";
+            if((latestLog.includes('スキャン') || latestLog.includes('執筆') || latestLog.includes('ビルド')) && currentMode !== 'SPEAKING') {
+                currentMode = 'WRITING';
+                phaseSymbol.innerText = "X";
+                phaseLabel.innerText = "CRTN";
+                phaseLabel.style.color = "#10b981";
+                voiceStatus.innerText = "PIPELINE COMPILING: INJECTING ARTISTIC NODE...";
+            }
+            document.getElementById('sysLat').innerText = (0.001 + Math.random() * 0.002).toFixed(3) + "ms";
         }
         setInterval(updateLogs, 2000);
-        updateLogs();
         
-        document.getElementById('injectBtn').addEventListener('click', async () => {
-            const file_name = document.getElementById('targetFile').value;
-            const ad_urls = document.getElementById('adUrls').value;
-            
-            if(!file_name || !ad_urls) { alert("ファイルとURLを正しく指定してください、ボス。"); return; }
-            
-            const res = await fetch('/api/inject_ads', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ file_name, ad_urls })
-            });
-            const data = await res.json();
-            alert(data.msg);
-            location.reload();
-        });
+        initParticles();
+        drawSceneMatrix();
+        updateLogs();
     </script>
 </body>
 </html>
